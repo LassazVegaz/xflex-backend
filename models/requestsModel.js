@@ -26,4 +26,4 @@ const requestsSchema = new mongoose.Schema({
 	},
 });
 
-module.exports = mongoose.model("Requests", requestsSchema);
+module.exports = mongoose.model("Request", requestsSchema);
