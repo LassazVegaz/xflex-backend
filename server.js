@@ -27,6 +27,8 @@ const run = async () => {
 	app.use("/api", require("./routes/posts"));
 	app.use("/api", require("./routes/offers"));
 
+	app.use("/api/suppliers", require("./routes/suppliersRouter"));
+
 	// Connect to mongodb
 	console.log("Connecting to DB...");
 	const URI = process.env.MONGODB_URL;
@@ -40,8 +42,8 @@ const run = async () => {
 
 	const PORT = process.env.PORT || 5007;
 	app.listen(PORT, () => {
-		console.log("Server is running on port", PORT);
+		console.log(`Server is running on http://localhost:${PORT}`);
 	});
 };
 
-run().catch((e) => console.error);
+run().catch(console.error);
