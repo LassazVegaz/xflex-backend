@@ -3,6 +3,17 @@ const suppliersController = require("../controllers/suppliersCtrl");
 
 const router = Router();
 
+// get supplier by id
+router.get("/:id", async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		const supplier = await suppliersController.getSupplierById(id);
+		res.status(200).json(supplier);
+	} catch (error) {
+		next(error);
+	}
+});
+
 // search suppliers
 router.get("/", async (req, res, next) => {
 	try {

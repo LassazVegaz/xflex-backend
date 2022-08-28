@@ -12,12 +12,14 @@ const checkPhone = async (phone) => {
 	return Boolean(supplier);
 };
 
+// create a supplier
 const createSupplier = async (supplierModel) => {
 	const supplier = new Supplier(supplierModel);
 	const newSup = await supplier.save();
 	return newSup.toJSON();
 };
 
+// search suppliers
 const getSuppliers = async (searchText) => {
 	const suppliers = await Supplier.find({
 		$or: [
@@ -38,9 +40,16 @@ const getSuppliers = async (searchText) => {
 	return suppliers.map((supplier) => supplier.toJSON());
 };
 
+// get supplier by id
+const getSupplierById = async (id) => {
+	const supplier = await Supplier.findById(id);
+	return supplier?.toJSON();
+};
+
 module.exports = {
 	createSupplier,
 	getSuppliers,
 	checkEmail,
 	checkPhone,
+	getSupplierById,
 };
