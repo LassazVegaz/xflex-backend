@@ -64,6 +64,11 @@ const updateSupplier = async (id, supplierModel) => {
 	return updatedSupplier.toJSON();
 };
 
+// delete supplier
+const deleteSupplier = async (id) => {
+	await Supplier.findByIdAndDelete(id);
+};
+
 module.exports = {
 	createSupplier,
 	getSuppliers,
@@ -71,4 +76,5 @@ module.exports = {
 	checkPhone,
 	getSupplierById,
 	updateSupplier,
+	deleteSupplier,
 };

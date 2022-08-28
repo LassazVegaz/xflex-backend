@@ -71,4 +71,15 @@ router.put("/:id", async (req, res, next) => {
 	}
 });
 
+// delete supplier
+router.delete("/:id", async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		await suppliersController.deleteSupplier(id);
+		res.status(204).end();
+	} catch (error) {
+		next(error);
+	}
+});
+
 module.exports = router;
