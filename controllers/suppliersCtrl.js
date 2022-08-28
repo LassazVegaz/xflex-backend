@@ -46,10 +46,23 @@ const getSupplierById = async (id) => {
 	return supplier?.toJSON();
 };
 
+// update supplier
+const updateSupplier = async (id, supplierModel) => {
+	const updatedSupplier = await Supplier.findByIdAndUpdate(
+		id,
+		supplierModel,
+		{
+			new: true,
+		}
+	);
+	return updatedSupplier.toJSON();
+};
+
 module.exports = {
 	createSupplier,
 	getSuppliers,
 	checkEmail,
 	checkPhone,
 	getSupplierById,
+	updateSupplier,
 };

@@ -57,4 +57,18 @@ router.post("/", async (req, res, next) => {
 	}
 });
 
+// update supplier
+router.put("/:id", async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		const updatedSupplier = await suppliersController.updateSupplier(
+			id,
+			req.body
+		);
+		res.json(updatedSupplier);
+	} catch (error) {
+		next(error);
+	}
+});
+
 module.exports = router;
