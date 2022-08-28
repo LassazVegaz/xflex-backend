@@ -5,6 +5,7 @@ const cors = require("cors");
 const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const errorHandler = require("./middleware/errorHandlerMiddleware");
 
 const run = async () => {
 	const app = express();
@@ -28,6 +29,9 @@ const run = async () => {
 	app.use("/api", require("./routes/offers"));
 
 	app.use("/api/suppliers", require("./routes/suppliersRouter"));
+
+	// error handler
+	app.use(errorHandler);
 
 	// Connect to mongodb
 	console.log("Connecting to DB...");
