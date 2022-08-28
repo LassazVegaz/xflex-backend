@@ -21,22 +21,28 @@ const createSupplier = async (supplierModel) => {
 
 // search suppliers
 const getSuppliers = async (searchText) => {
-	const suppliers = await Supplier.find({
-		$or: [
-			{
-				firstName: { $regex: searchText, $options: "i" },
-			},
-			{
-				lastName: { $regex: searchText, $options: "i" },
-			},
-			{
-				company: { $regex: searchText, $options: "i" },
-			},
-			{
-				email: { $regex: searchText, $options: "i" },
-			},
-		],
-	});
+	let suppliers = [];
+	if (searchText) {
+		suppliers = await Supplier.find({
+			$or: [
+				{
+					firstName: { $regex: searchText, $options: "i" },
+				},
+				{
+					lastName: { $regex: searchText, $options: "i" },
+				},
+				{
+					company: { $regex: searchText, $options: "i" },
+				},
+				{
+					email: { $regex: searchText, $options: "i" },
+				},
+			],
+		});
+	} else {
+		suppliers = await Supplier.find({});
+	}
+
 	return suppliers.map((supplier) => supplier.toJSON());
 };
 
