@@ -57,7 +57,7 @@ const getSuppliers = async (searchText, pageNo) => {
 
 // get total suppliers count
 const getTotalSuppliersCount = async () => {
-	const count = await Supplier.count();
+	const count = await Supplier.countDocuments();
 	return count;
 };
 
