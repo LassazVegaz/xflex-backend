@@ -1,4 +1,5 @@
 const Supplier = require("../models/suppliersModel");
+const ITEMS_PER_PAGE = 5;
 
 // check if email exists
 const checkEmail = async (email) => {
@@ -20,10 +21,12 @@ const createSupplier = async (supplierModel) => {
 };
 
 // search suppliers
-const getSuppliers = async (searchText) => {
+const getSuppliers = async (searchText, pageNo) => {
+	let query;
 	let suppliers = [];
+
 	if (searchText) {
-		suppliers = await Supplier.find({
+		query = Supplier.find({
 			$or: [
 				{
 					firstName: { $regex: searchText, $options: "i" },
@@ -40,10 +43,22 @@ const getSuppliers = async (searchText) => {
 			],
 		});
 	} else {
-		suppliers = await Supplier.find({});
+		query = Supplier.find({});
 	}
 
+	if (pageNo) {
+		query = query.skip((pageNo - 1) * ITEMS_PER_PAGE).limit(ITEMS_PER_PAGE);
+	}
+
+	suppliers = await query;
+
 	return suppliers.map((supplier) => supplier.toJSON());
+};
+
+// get total suppliers count
+const getTotalSuppliersCount = async () => {
+	const count = await Supplier.count();
+	return count;
 };
 
 // get supplier by id
@@ -77,4 +92,5 @@ module.exports = {
 	getSupplierById,
 	updateSupplier,
 	deleteSupplier,
+	getTotalSuppliersCount,
 };

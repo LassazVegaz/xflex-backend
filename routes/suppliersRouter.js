@@ -25,6 +25,16 @@ router.get("/check_phone", async (req, res, next) => {
 	}
 });
 
+// get suppliers count
+router.get("/count", async (req, res, next) => {
+	try {
+		const count = await suppliersController.getTotalSuppliersCount();
+		res.json(count);
+	} catch (error) {
+		next(error);
+	}
+});
+
 // get supplier by id
 router.get("/:id", async (req, res, next) => {
 	try {
@@ -39,8 +49,11 @@ router.get("/:id", async (req, res, next) => {
 // search suppliers
 router.get("/", async (req, res, next) => {
 	try {
-		const { search } = req.query;
-		const suppliers = await suppliersController.getSuppliers(search);
+		const { search, pageNo } = req.query;
+		const suppliers = await suppliersController.getSuppliers(
+			search,
+			pageNo
+		);
 		res.json(suppliers);
 	} catch (error) {
 		next(error);
