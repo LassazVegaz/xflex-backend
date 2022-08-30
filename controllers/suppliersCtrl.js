@@ -22,37 +22,39 @@ const createSupplier = async (supplierModel) => {
 
 // search suppliers
 const getSuppliers = async (searchText, pageNo) => {
-	let query;
-	let suppliers = [];
-
+	let wherePart = {};
 	if (searchText) {
-		query = Supplier.find({
+		const regExp = new RegExp(searchText, "i");
+		wherePart = {
 			$or: [
 				{
-					firstName: { $regex: searchText, $options: "i" },
+					firstName: regExp,
 				},
 				{
-					lastName: { $regex: searchText, $options: "i" },
+					lastName: regExp,
 				},
 				{
-					company: { $regex: searchText, $options: "i" },
+					company: regExp,
 				},
 				{
-					email: { $regex: searchText, $options: "i" },
+					email: regExp,
 				},
 			],
-		});
-	} else {
-		query = Supplier.find({});
+		};
 	}
 
+	let query = Supplier.find(wherePart);
 	if (pageNo) {
 		query = query.skip((pageNo - 1) * ITEMS_PER_PAGE).limit(ITEMS_PER_PAGE);
 	}
+	const suppliers = await query;
 
-	suppliers = await query;
+	const count = await Supplier.countDocuments(wherePart);
 
-	return suppliers.map((supplier) => supplier.toJSON());
+	return {
+		suppliers: suppliers.map((supplier) => supplier.toJSON()),
+		count,
+	};
 };
 
 // get total suppliers count
