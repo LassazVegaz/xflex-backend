@@ -29,14 +29,13 @@ router.get("/", async (req, res, next) => {
 });
 
 // change request status
-router.patch("/{id}", async (req, res, next) => {
+router.patch("/:id/change_status", async (req, res, next) => {
 	try {
 		const request = await requestsController.changeRequestStatus(
 			req.params.id,
-			req.body
+			req.body.status
 		);
-
-		return request;
+		res.json(request);
 	} catch (error) {
 		next(error);
 	}
