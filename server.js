@@ -29,6 +29,7 @@ const run = async () => {
 	app.use("/api", require("./routes/offers"));
 
 	app.use("/api/suppliers", require("./routes/suppliersRouter"));
+	app.use("/api/requests", require("./routes/requestsRouter"));
 
 	// error handler
 	app.use(errorHandler);
