@@ -13,6 +13,24 @@ const createRequest = async (supplierId, items) => {
 	return request;
 };
 
+// get all requests
+const getRequests = async (supplierId) => {
+	const supplier = await Supplier.findById(supplierId).populate("requests");
+
+	// group requests by status
+	const groupedRequests = supplier.requests.reduce((acc, request) => {
+		const key = request.status;
+		if (!acc[key]) {
+			acc[key] = [];
+		}
+		acc[key].push(request);
+		return acc;
+	}, {});
+
+	return groupedRequests;
+};
+
 module.exports = {
 	createRequest,
+	getRequests,
 };

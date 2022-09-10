@@ -17,4 +17,15 @@ router.post("/", async (req, res, next) => {
 	}
 });
 
+// get all requests
+router.get("/", async (req, res, next) => {
+	try {
+		const { supplierId } = req.query;
+		const requests = await requestsController.getRequests(supplierId);
+		res.json(requests);
+	} catch (error) {
+		next(error);
+	}
+});
+
 module.exports = router;
