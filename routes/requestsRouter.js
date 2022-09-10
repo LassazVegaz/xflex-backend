@@ -28,4 +28,18 @@ router.get("/", async (req, res, next) => {
 	}
 });
 
+// change request status
+router.patch("/{id}", async (req, res, next) => {
+	try {
+		const request = await requestsController.changeRequestStatus(
+			req.params.id,
+			req.body
+		);
+
+		return request;
+	} catch (error) {
+		next(error);
+	}
+});
+
 module.exports = router;
