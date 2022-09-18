@@ -1,5 +1,9 @@
 const Router = require("express").Router;
 const suppliersController = require("../controllers/suppliersCtrl");
+const ejs = require("ejs");
+const path = require("path");
+const pdf = require("html-pdf");
+const fs = require("fs");
 
 const router = Router();
 
@@ -90,6 +94,38 @@ router.delete("/:id", async (req, res, next) => {
 		const { id } = req.params;
 		await suppliersController.deleteSupplier(id);
 		res.status(204).end();
+	} catch (error) {
+		next(error);
+	}
+});
+
+// get suppliers report
+router.get("/:id/report", async (req, res, next) => {
+	try {
+		const { id } = req.params;
+		const reportData = await suppliersController.getReportData(id);
+		const html = await ejs.renderFile(
+			path.join(__dirname, "../reports/supplier-requests.ejs"),
+			{ supplier: reportData }
+		);
+		const options = {
+			format: "A4",
+			orientation: "portrait",
+			border: {
+				top: "0.5in",
+				right: "0.5in",
+				bottom: "0.5in",
+				left: "0.5in",
+			},
+		};
+		pdf.create(html, options).toStream((err, stream) => {
+			if (err) return next(err);
+			res.setHeader(
+				"Content-Disposition",
+				`attachment; filename=${reportData.title}.pdf`
+			);
+			stream.pipe(res);
+		});
 	} catch (error) {
 		next(error);
 	}
