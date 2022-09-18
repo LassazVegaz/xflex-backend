@@ -1,4 +1,5 @@
 const Supplier = require("../models/suppliersModel");
+const requestsCtrl = require("./requestsCtrl");
 const ITEMS_PER_PAGE = 5;
 
 // check if email exists
@@ -86,6 +87,19 @@ const deleteSupplier = async (id) => {
 	await Supplier.findByIdAndDelete(id);
 };
 
+// get report data
+const getReportData = async (supplierId) => {
+	const supplier = await getSupplierById(supplierId);
+	const requests = await requestsCtrl.getRequests(supplierId);
+	const title = `Supplier Report - ${supplier.firstName} ${supplier.lastName}`;
+	const reportData = {
+		title,
+		supplier,
+		requests,
+	};
+	return reportData;
+};
+
 module.exports = {
 	createSupplier,
 	getSuppliers,
@@ -95,4 +109,5 @@ module.exports = {
 	updateSupplier,
 	deleteSupplier,
 	getTotalSuppliersCount,
+	getReportData,
 };
