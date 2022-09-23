@@ -1,4 +1,8 @@
+const ejs = require("ejs");
+const path = require("path");
+const pdf = require("html-pdf");
 const Supplier = require("../models/suppliersModel");
+const requestsCtrl = require("./requestsCtrl");
 const ITEMS_PER_PAGE = 5;
 
 // check if email exists
@@ -86,6 +90,43 @@ const deleteSupplier = async (id) => {
 	await Supplier.findByIdAndDelete(id);
 };
 
+// get report data
+const getReportData = async (supplierId) => {
+	const supplier = await getSupplierById(supplierId);
+	const requests = await requestsCtrl.getRequests(supplierId);
+	const title = `Supplier Report - ${supplier.firstName} ${supplier.lastName}`;
+	const reportData = {
+		title,
+		supplier,
+		requests,
+	};
+	return reportData;
+};
+
+// get html for report
+const getReportHtml = async (supplierId) => {
+	const reportData = await getReportData(supplierId);
+	const html = await ejs.renderFile(
+		path.join(
+			__dirname,
+			"../reports/supplier-requests/supplier-requests.ejs"
+		),
+		{ data: reportData }
+	);
+	return html;
+};
+
+// get pdf for report
+const getReportPdf = async (supplierId, onStreemReady) => {
+	const html = await getReportHtml(supplierId);
+	const pdfOptions = {
+		format: "A4",
+		orientation: "portrait",
+		border: "10mm",
+	};
+	pdf.create(html, pdfOptions).toStream(onStreemReady);
+};
+
 module.exports = {
 	createSupplier,
 	getSuppliers,
@@ -95,4 +136,6 @@ module.exports = {
 	updateSupplier,
 	deleteSupplier,
 	getTotalSuppliersCount,
+	getReportHtml,
+	getReportPdf,
 };
