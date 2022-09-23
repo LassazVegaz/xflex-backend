@@ -3,7 +3,6 @@ const suppliersController = require("../controllers/suppliersCtrl");
 const ejs = require("ejs");
 const path = require("path");
 const pdf = require("html-pdf");
-const fs = require("fs");
 
 const router = Router();
 
@@ -99,32 +98,29 @@ router.delete("/:id", async (req, res, next) => {
 	}
 });
 
+// view report
+router.get("/:id/report/view", async (req, res, next) => {
+	try {
+		// send report view as html
+		const { id } = req.params;
+		const reportHtml = await suppliersController.getReportHtml(id);
+		res.send(reportHtml);
+	} catch (error) {
+		next(error);
+	}
+});
+
 // get suppliers report
 router.get("/:id/report", async (req, res, next) => {
 	try {
 		const { id } = req.params;
-		const reportData = await suppliersController.getReportData(id);
-		const html = await ejs.renderFile(
-			path.join(__dirname, "../reports/supplier-requests.ejs"),
-			{ supplier: reportData }
-		);
-		const options = {
-			format: "A4",
-			orientation: "portrait",
-			border: {
-				top: "0.5in",
-				right: "0.5in",
-				bottom: "0.5in",
-				left: "0.5in",
-			},
-		};
-		pdf.create(html, options).toStream((err, stream) => {
-			if (err) return next(err);
-			res.setHeader(
-				"Content-Disposition",
-				`attachment; filename=${reportData.title}.pdf`
-			);
-			stream.pipe(res);
+		suppliersController.getReportPdf(id, (err, stream) => {
+			if (err) {
+				next(err);
+			} else {
+				res.setHeader("Content-Type", "application/pdf");
+				stream.pipe(res);
+			}
 		});
 	} catch (error) {
 		next(error);

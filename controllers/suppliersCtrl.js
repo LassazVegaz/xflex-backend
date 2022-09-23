@@ -1,3 +1,6 @@
+const ejs = require("ejs");
+const path = require("path");
+const pdf = require("html-pdf");
 const Supplier = require("../models/suppliersModel");
 const requestsCtrl = require("./requestsCtrl");
 const ITEMS_PER_PAGE = 5;
@@ -100,6 +103,30 @@ const getReportData = async (supplierId) => {
 	return reportData;
 };
 
+// get html for report
+const getReportHtml = async (supplierId) => {
+	const reportData = await getReportData(supplierId);
+	const html = await ejs.renderFile(
+		path.join(
+			__dirname,
+			"../reports/supplier-requests/supplier-requests.ejs"
+		),
+		{ data: reportData }
+	);
+	return html;
+};
+
+// get pdf for report
+const getReportPdf = async (supplierId, onStreemReady) => {
+	const html = await getReportHtml(supplierId);
+	const pdfOptions = {
+		format: "A4",
+		orientation: "portrait",
+		border: "10mm",
+	};
+	pdf.create(html, pdfOptions).toStream(onStreemReady);
+};
+
 module.exports = {
 	createSupplier,
 	getSuppliers,
@@ -109,5 +136,6 @@ module.exports = {
 	updateSupplier,
 	deleteSupplier,
 	getTotalSuppliersCount,
-	getReportData,
+	getReportHtml,
+	getReportPdf,
 };
