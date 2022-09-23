@@ -30,7 +30,17 @@ const getRequests = async (supplierId) => {
 	return groupedRequests;
 };
 
+// change req status
+const changeRequestStatus = async (requestId, status) => {
+	const request = await Request.findById(requestId);
+	request.status = status;
+	await request.save();
+
+	return request.toJSON();
+};
+
 module.exports = {
 	createRequest,
 	getRequests,
+	changeRequestStatus,
 };
