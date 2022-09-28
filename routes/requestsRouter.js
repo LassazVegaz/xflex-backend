@@ -11,6 +11,8 @@ router.post("/", async (req, res, next) => {
 			supplierId,
 			items
 		);
+		await requestsController.emailRequestDetails(request._id, supplierId);
+
 		res.status(201).json(request);
 	} catch (error) {
 		next(error);
