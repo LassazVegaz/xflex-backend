@@ -1,5 +1,5 @@
 const express = require('express');
-const Posts = require('../models/posts');//import created user model
+const Posts = require('../models/posts1');//import created user model
 const auth = require('../middleware/auth')
 
 const router = express.Router();
@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/post/save',(req,res)=>{
 
     let newPost = new Posts(req.body);//constant eka haraha uda gatta Posts instanciate krnna ona
-
+    
     newPost.save((err) =>{
         if(err){
             return res.status(400).json({
