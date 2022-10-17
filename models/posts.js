@@ -2,10 +2,11 @@ const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema({
 
-    MainCity:{
+    DeliveryFee:{
         type:String,
-        required:true
+       
     },
+ 
    Address:{
         type:String,
         required:true

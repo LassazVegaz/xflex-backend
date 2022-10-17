@@ -17,7 +17,7 @@ router.post('/post/save',(req,res)=>{
             });
         }
         return res.status(200).json({
-            success:"Deliveries saved successfully"
+            success:"Order placed successfully"
         });    
     });
 
