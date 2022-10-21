@@ -5,48 +5,20 @@ const cors = require("cors");
 const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const path = require("path");
-
-const app = express();
-app.use(express.json());
-app.use(cookieParser());
-app.use(cors());
-app.use(
-	fileUpload({
-		useTempFiles: true,
-	})
-);
-
-// Routes
-app.use("/user", require("./routes/userRouter"));
-app.use("/api", require("./routes/categoryRouter"));
-app.use("/api", require("./routes/upload"));
-app.use("/api", require("./routes/productRouter"));
-app.use("/api", require("./routes/paymentRouter"));
-
-app.use("/api", require("./routes/posts"));
-app.use("/api", require("./routes/offers"));
+const errorHandler = require("./middleware/errorHandlerMiddleware");
 
 
-const postsRoute = require('./routes/feedbacks');
-app.use(postsRoute);
-
-// Connect to mongodb
-const URI = process.env.MONGODB_URL;
-mongoose.connect(
-	URI,
-	{
 		useCreateIndex: true,
 		useFindAndModify: false,
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
-	},
-	(err) => {
-		if (err) throw err;
-		console.log("Connected to MongoDB");
-	}
-);
+	});
+	console.log("Connected to MongoDB");
 
-const PORT = process.env.PORT || 5007;
-app.listen(PORT, () => {
-	console.log("Server is running on port", PORT);
-});
+	const PORT = process.env.PORT || 5007;
+	app.listen(PORT, () => {
+		console.log(`Server is running on http://localhost:${PORT}`);
+	});
+};
+
+run().catch(console.error);

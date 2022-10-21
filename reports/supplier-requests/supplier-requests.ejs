@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title><%= data.title %></title>
+
+		<style>
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+				margin: 10px 30px;
+			}
+
+			.data-box {
+				margin-top: 50px;
+				margin-bottom: 60px;
+				width: 400px;
+				display: flex;
+				flex-direction: column;
+				row-gap: 20px;
+			}
+
+			.data-box .row {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				width: 100%;
+				font-size: large;
+			}
+
+			.data-box .row .label {
+				font-weight: bold;
+			}
+
+			h2 {
+				margin-bottom: 20px;
+				margin-top: 50px;
+			}
+
+			table {
+				border: 1px solid black;
+				margin-bottom: 20px;
+			}
+
+			table th,
+			table td {
+				border: 1px solid black;
+				padding: 5px;
+			}
+
+			table th {
+				background-color: #e0e0e0;
+				text-align: left;
+				width: 200px;
+			}
+
+			table td {
+				text-align: right;
+				width: 250px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1><%= data.title %></h1>
+
+		<!-- Profile section -->
+		<% const supplier = data.supplier; %>
+		<section class="data-box">
+			<div class="row">
+				<div class="label">Name</div>
+				<div><%= supplier.firstName %> <%= supplier.lastName %></div>
+			</div>
+			<div class="row">
+				<div class="label">Email</div>
+				<div>
+					<a href="mailto:<%= supplier.email %>"
+						><%= supplier.email %></a
+					>
+				</div>
+			</div>
+			<div class="row">
+				<div class="label">Phone Number</div>
+				<div>
+					<a href="tel:<%= supplier.phone %>"
+						><%= supplier.phone %></a
+					>
+				</div>
+			</div>
+			<div class="row">
+				<div class="label">Company</div>
+				<div><%= supplier.company %></div>
+			</div>
+		</section>
+
+		<!-- Stats section -->
+		<% const pReqs = data.requests.pending ?? []; const rReqs =
+		data.requests.recieved ?? []; const cReqs = data.requests.cancelled ??
+		[]; const totalReqsCount = pReqs.length + rReqs.length + cReqs.length;
+		%>
+		<h1>Overall Stats on Requests</h1>
+
+		<section class="data-box">
+			<div class="row">
+				<div class="label">Total Requests</div>
+				<div><%= totalReqsCount %></div>
+			</div>
+			<div class="row">
+				<div class="label">Total Pending Requests</div>
+				<div><%= pReqs.length %></div>
+			</div>
+			<div class="row">
+				<div class="label">Total Cancelled Requests</div>
+				<div><%= cReqs.length %></div>
+			</div>
+			<div class="row">
+				<div class="label">Total Recieved Requests</div>
+				<div><%= rReqs.length %></div>
+			</div>
+		</section>
+
+		<!-- Pending requests -->
+		<h2>Pending Requests</h2>
+
+		<% for( let i = 0; i < pReqs.length; i++ ) { const req = pReqs[i]; %>
+		<table>
+			<tbody>
+				<tr>
+					<th>Request ID</th>
+					<td><%= req._id %></td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td><%= new Date(req.date).toLocaleDateString() %></td>
+				</tr>
+				<tr>
+					<th>Total item types</th>
+					<td><%= req.items.length %></td>
+				</tr>
+				<tr>
+					<th>Total item amount</th>
+					<td>
+						<%= req.items.reduce( (total, item) => total +
+						item.amount, 0 ) %>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<% } %>
+
+		<!-- Recieved requests -->
+		<h2>Recieved Requests</h2>
+
+		<% for( let i = 0; i < rReqs.length; i++ ) { const req = rReqs[i]; %>
+		<table>
+			<tbody>
+				<tr>
+					<th>Request ID</th>
+					<td><%= req._id %></td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td><%= new Date(req.date).toLocaleDateString() %></td>
+				</tr>
+				<tr>
+					<th>Total item types</th>
+					<td><%= req.items.length %></td>
+				</tr>
+				<tr>
+					<th>Total item amount</th>
+					<td>
+						<%= req.items.reduce( (total, item) => total +
+						item.amount, 0 ) %>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<% } %>
+
+		<!-- Cancelled requests -->
+		<h2>Cancelled Requests</h2>
+
+		<% for( let i = 0; i < cReqs.length; i++ ) { const req = cReqs[i]; %>
+		<table>
+			<tbody>
+				<tr>
+					<th>Request ID</th>
+					<td><%= req._id %></td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td><%= new Date(req.date).toLocaleDateString() %></td>
+				</tr>
+				<tr>
+					<th>Total item types</th>
+					<td><%= req.items.length %></td>
+				</tr>
+				<tr>
+					<th>Total item amount</th>
+					<td>
+						<%= req.items.reduce( (total, item) => total +
+						item.amount, 0 ) %>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<% } %>
+	</body>
+</html>
