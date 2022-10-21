@@ -26,6 +26,10 @@ app.use("/api", require("./routes/paymentRouter"));
 app.use("/api", require("./routes/posts"));
 app.use("/api", require("./routes/offers"));
 
+
+const postsRoute = require('./routes/feedbacks');
+app.use(postsRoute);
+
 // Connect to mongodb
 const URI = process.env.MONGODB_URL;
 mongoose.connect(
