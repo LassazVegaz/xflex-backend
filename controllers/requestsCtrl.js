@@ -66,7 +66,11 @@ const emailRequestDetails = async (requestId, supplierId) => {
 
 // get all requests
 const getRequests = async (supplierId) => {
-	const supplier = await Supplier.findById(supplierId).populate("requests");
+	// get all requests of the supplier and sort them by date
+	const supplier = await Supplier.findById(supplierId).populate({
+		path: "requests",
+		options: { sort: { date: -1 } },
+	});
 
 	// group requests by status
 	const groupedRequests = supplier.requests.reduce((acc, request) => {
