@@ -23,5 +23,5 @@ const postSchema = new mongoose.Schema({
 
 });
 
-module.exports =  mongoose.model('Posts',postSchema);//Posts kiynne model eka db eke hedena name eka
+module.exports =  mongoose.model('Postss',postSchema);//Posts kiynne model eka db eke hedena name eka
 

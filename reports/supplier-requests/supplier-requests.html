@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Suppliers Report</title>
+
+		<style>
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+				margin: 10px 30px;
+			}
+
+			.data-box {
+				margin-top: 50px;
+				margin-bottom: 60px;
+				width: 400px;
+				display: flex;
+				flex-direction: column;
+				row-gap: 20px;
+			}
+
+			.data-box .row {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				width: 100%;
+				font-size: large;
+			}
+
+			.data-box .row .label {
+				font-weight: bold;
+			}
+
+			h2 {
+				margin-bottom: 20px;
+				margin-top: 50px;
+			}
+
+			table {
+				border: 1px solid black;
+				margin-bottom: 20px;
+			}
+
+			table th,
+			table td {
+				border: 1px solid black;
+				padding: 5px;
+			}
+
+			table th {
+				background-color: #e0e0e0;
+				text-align: left;
+				width: 200px;
+			}
+
+			table td {
+				text-align: right;
+				width: 250px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Report of the Requests of Supplier John Doe</h1>
+
+		<!-- Profile section -->
+		<section class="data-box">
+			<div class="row">
+				<div class="label">Name</div>
+				<div>John Doe</div>
+			</div>
+			<div class="row">
+				<div class="label">Email</div>
+				<div>john@test.com</div>
+			</div>
+			<div class="row">
+				<div class="label">Phone Number</div>
+				<div>+94756666666</div>
+			</div>
+			<div class="row">
+				<div class="label">Company</div>
+				<div>Keels Union</div>
+			</div>
+		</section>
+
+		<!-- Stats section -->
+		<h1>Overall Stats on Requests</h1>
+
+		<section class="data-box">
+			<div class="row">
+				<div class="label">Total Requests</div>
+				<div>10</div>
+			</div>
+			<div class="row">
+				<div class="label">Total Pending Requests</div>
+				<div>10</div>
+			</div>
+			<div class="row">
+				<div class="label">Total Cancelled Requests</div>
+				<div>10</div>
+			</div>
+			<div class="row">
+				<div class="label">Total Recieved Requests</div>
+				<div>10</div>
+			</div>
+		</section>
+
+		<!-- Pending requests -->
+		<h2>Pending Requests</h2>
+
+		<table>
+			<tbody>
+				<tr>
+					<th>Request ID</th>
+					<td>1001</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>01-02-2022</td>
+				</tr>
+				<tr>
+					<th>Total item types</th>
+					<td>10</td>
+				</tr>
+				<tr>
+					<th>Total item amount</th>
+					<td>210</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<table>
+			<tbody>
+				<tr>
+					<th>Request ID</th>
+					<td>1001</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>01-02-2022</td>
+				</tr>
+				<tr>
+					<th>Total item types</th>
+					<td>10</td>
+				</tr>
+				<tr>
+					<th>Total item amount</th>
+					<td>210</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<table>
+			<tbody>
+				<tr>
+					<th>Request ID</th>
+					<td>1001</td>
+				</tr>
+				<tr>
+					<th>Date</th>
+					<td>01-02-2022</td>
+				</tr>
+				<tr>
+					<th>Total item types</th>
+					<td>10</td>
+				</tr>
+				<tr>
+					<th>Total item amount</th>
+					<td>210</td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>
